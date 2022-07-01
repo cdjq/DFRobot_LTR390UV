@@ -1,0 +1,39 @@
+
+#######################################
+# Syntax Map For DFRobot_LTR390UV
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+DFRobot_LTR390UV	KEYWORD1
+
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+begin	KEYWORD2
+setMode	KEYWORD2
+setALSOrUVSMeasRate	KEYWORD2
+setALSOrUVSGain	KEYWORD2
+setALSOrUVSINTCFG	KEYWORD2
+setUVSOrAlsThresUpData	KEYWORD2
+readOriginalData	KEYWORD2
+readUVSTransformData	KEYWORD2
+setUvsOrAlsThresVar	KEYWORD2
+
+
+
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+eALSMode	LITERAL1
+eUVSMode	LITERAL1
