@@ -50,10 +50,14 @@ LTR390UV_HOLDINGREG_UVS_ALS_THRES_LOW_DATA_HIGH =0x0B   #紫外线或环境光�
 LTR390UV_HOLDINGREG_UVS_ALS_THRES_VAR_DATA      =0x0C   #紫外线或环境光数据变化次数阈值
 LTR390UV_HOLDINGREG_ALS_UVS_MEAS_RATE           =0x0D   #数据采集位数和采样时间设置
 LTR390UV_HOLDINGREG_MAIN_CTRL                   =0x0E   #传感器模式选择
+a_gain[5] = {1,3,6,9,18}
+a_int[6] = {4.,2.,1.,0.5,0.25,0.25}
 
 class DFRobot_LTR390UV():
   def __init__(self ,bus = 0 ,baud = 9600, mode = I2C_MODE):
     self.mode = 0
+    self.resolution = 0
+    self.gain = 0
     if mode == I2C_MODE:
       self.i2cbus = smbus.SMBus(bus)
       self._uart_i2c = I2C_MODE
@@ -66,7 +70,7 @@ class DFRobot_LTR390UV():
       @brief Get sensor address
       @return  Return sensor address
     '''
-    rbuf = self._read_reg(0x02,2)
+    rbuf = self._read_reg(0x02,2,0)
     if self._uart_i2c == I2C_MODE:
       data = rbuf[0] | rbuf[1] << 8
     elif self._uart_i2c == UART_MODE:
@@ -118,6 +122,7 @@ class DFRobot_LTR390UV():
       @n ---------------------------------------------------------------------------------------------------------
       @param data 控制数据
     '''
+    self.resolution = (data&0xf0)>>4
     if self._uart_i2c == I2C_MODE:
       buffer=[data,0]
     else:
@@ -140,6 +145,7 @@ class DFRobot_LTR390UV():
       @n ---------------------------------------------------------------------------------------------------------                  
       @param data 控制数据 
     '''
+    self.gain = data
     if self._uart_i2c == I2C_MODE:
       buffer=[data,0]
     else:
@@ -202,25 +208,29 @@ class DFRobot_LTR390UV():
     '''
     if self._uart_i2c == I2C_MODE:
       if self.mode == ALSMode:
-        buffer = self._read_reg(LTR390UV_INPUTREG_ALS_DATA_LOW,4)
+        buffer = self._read_reg(LTR390UV_INPUTREG_ALS_DATA_LOW,4,0)
         data = buffer[2]<<16|buffer[3]<<24|buffer[0]|buffer[1]<<8
+        data = (0.6*originalData)/(a_gain[self.gain]*a_int[self.resolution])
       elif self.mode == UVSMode:
-        buffer = self._read_reg(LTR390UV_INPUTREG_UVS_DATA_LOW,4)
+        buffer = self._read_reg(LTR390UV_INPUTREG_UVS_DATA_LOW,4,0)
         data = buffer[2]<<16|buffer[3]<<24|buffer[0]|buffer[1]<<8
+        data = data/((self.gain/18)*(self.resolution/4)*2300)
     else:
       if self.mode == ALSMode:
-        buffer = self._read_reg(LTR390UV_INPUTREG_ALS_DATA_LOW,2)
+        buffer = self._read_reg(LTR390UV_INPUTREG_ALS_DATA_LOW,2,0)
         data = buffer[0]|buffer[1]<<16
+        data = (0.6*originalData)/(a_gain[self.gain]*a_int[self.resolution])
       elif self.mode == UVSMode:
-        buffer = self._read_reg(LTR390UV_INPUTREG_UVS_DATA_LOW,2)
+        buffer = self._read_reg(LTR390UV_INPUTREG_UVS_DATA_LOW,2,0)
         data = buffer[0]|buffer[1]<<16
+        data = data/((self.gain/18)*(self.resolution/4)*2300)
     return data
-  
+  '''
   def read_UVS_transform_data(self):
-    '''
+    
       @brief 获取转换后得UVS数据
       @return 返回转换后的数据
-    '''
+    
     if self._uart_i2c == I2C_MODE:
       if self.mode == UVSMode:
         buffer = self._read_reg(LTR390UV_INPUTREG_UVS_DATA_LOW,4)
@@ -231,7 +241,7 @@ class DFRobot_LTR390UV():
         data = buffer[0]|buffer[1]<<16
     returnData = data / 1800
     return returnData
-
+'''
   def set_UVS_or_ALS_thresvar(self,data):
     '''
       @brief 设置环境光或紫外线数据变化次数中断
@@ -267,14 +277,16 @@ class DFRobot_LTR390UV_I2C(DFRobot_LTR390UV):
     DFRobot_LTR390UV.__init__(self,bus,0,I2C_MODE)   
     
   
-  def _read_reg(self, reg_addr ,length):
+  def _read_reg(self, reg_addr ,length, state):
     '''!
       @brief read the data from the register
       @param reg_addr register address
       @param length read data
     '''
+    if state == 1:
+      reg = reg_addr+5
     try:
-      rslt = self.i2cbus.read_i2c_block_data(self._addr ,reg_addr , length)
+      rslt = self.i2cbus.read_i2c_block_data(self._addr ,reg , length)
     except:
       rslt = -1
     return rslt

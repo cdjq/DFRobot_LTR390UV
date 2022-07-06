@@ -55,6 +55,7 @@ void DFRobot_LTR390UV::setMode(eModel_t mode)
 void DFRobot_LTR390UV::setALSOrUVSMeasRate(uint8_t data)
 {
   uint8_t _sendData[2];
+  resolution = (data&0xf0)>>4;
   _sendData[0] = 0;
   _sendData[1] = data;
   writeReg(LTR390UV_HOLDINGREG_ALS_UVS_MEAS_RATE,&_sendData,2);
@@ -63,6 +64,7 @@ void DFRobot_LTR390UV::setALSOrUVSMeasRate(uint8_t data)
 void DFRobot_LTR390UV::setALSOrUVSGain(uint8_t data)
 { 
   uint8_t _sendData[2];
+  gain = data;
   _sendData[0] = 0;
   _sendData[1] = data;
   writeReg(LTR390UV_HOLDINGREG_ALS_UVS_GAIN,&_sendData,2);
@@ -109,21 +111,29 @@ uint8_t DFRobot_LTR390UV::setUVSOrAlsThresLowData(uint32_t data)
 
 }
 
-uint32_t DFRobot_LTR390UV::readOriginalData(void)
+float DFRobot_LTR390UV::readOriginalData(void)
 {
-  uint32_t data = 0;
+  float data = 0;
+  uint32_t originalData = 0;
   uint8_t buffer[4];
+  DBG(resolution);
+  DBG(gain);
+  DBG(a_int[resolution]);
+  DBG(a_gain[gain]);
   if(_mode == eModel_t::eALSMode){
-    readReg(LTR390UV_INPUTREG_ALS_DATA_LOW,buffer,4);
-    data = (uint32_t)buffer[2]<<24|(uint32_t)buffer[3]<<16|(uint16_t)buffer[0]<<8|buffer[1];
+    readReg(LTR390UV_INPUTREG_ALS_DATA_LOW,buffer,4,0);
+    originalData = (uint32_t)buffer[2]<<24|(uint32_t)buffer[3]<<16|(uint16_t)buffer[0]<<8|buffer[1];
+    DBG(0.6*originalData);
+    data = (0.6*originalData)/(a_gain[gain]*a_int[resolution]);
   }else{
-    readReg(LTR390UV_INPUTREG_UVS_DATA_LOW,buffer,4);
-    data = (uint32_t)buffer[2]<<24|(uint32_t)buffer[3]<<16|(uint16_t)buffer[0]<<8|buffer[1];
+    readReg(LTR390UV_INPUTREG_UVS_DATA_LOW,buffer,4,0);
+    originalData = (uint32_t)buffer[2]<<24|(uint32_t)buffer[3]<<16|(uint16_t)buffer[0]<<8|buffer[1];
+    data = originalData/((a_gain[gain]/18)*(a_int[resolution]/4)*2300);
   }
  
   return data;
 }
-
+/*
 float DFRobot_LTR390UV::readUVSTransformData(void)
 {
   float returnData = 0.0;
@@ -137,7 +147,7 @@ float DFRobot_LTR390UV::readUVSTransformData(void)
   return returnData;
 
 }
-
+*/
 void DFRobot_LTR390UV::setUvsOrAlsThresVar(uint8_t data)
 {
   uint8_t _sendData[2];
@@ -150,7 +160,7 @@ bool  DFRobot_LTR390UV::detectDeviceAddress(uint8_t addr)
 {
   if(_pWire){
   uint8_t buf[2];
-  readReg(LTR390UV_INPUTREG_ADDR, buf, 2);
+  readReg(LTR390UV_INPUTREG_ADDR, buf, 2,0);
   uint16_t ret = (buf[0]<<8| buf[1]);
   DBG(ret);
   if(addr == ((buf[0] << 8| buf[1]) & 0xFF))
@@ -164,16 +174,17 @@ bool  DFRobot_LTR390UV::detectDeviceAddress(uint8_t addr)
   return false;
 }
 
-uint8_t DFRobot_LTR390UV::readReg(uint16_t reg, void *pBuf, uint8_t size)
+uint8_t DFRobot_LTR390UV::readReg(uint16_t reg, void *pBuf, uint8_t size,uint8_t state)
 {
   uint8_t* _pBuf = (uint8_t*)pBuf;
-  
+  uint8_t _reg  = 0;
     if(pBuf == NULL){
       DBG("data error");
       return 0;
     }
   if(_pWire){
-   
+    if(state == 1)
+      _reg = reg+5;
     _pWire->beginTransmission(_addr);
     _pWire->write(reg);
     _pWire->endTransmission();

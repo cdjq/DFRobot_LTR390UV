@@ -58,18 +58,59 @@ void setup()
     delay(1000);
   }
   Serial.println(" Sensor  initialize success!!");
-  
-  ltr390.setALSOrUVSMeasRate(0x22);//设置模块采集数据位数和采集时间
+  /**
+   * @fn setALSOrUVSMeasRate
+   * @brief 设置模块采集数据位数和采集时间，采集时间必须大于采集位数所需时间
+   * @n --------------------------------------------------------------------------------------------------------
+   * @n |    bit7    |    bit6    |    bit5    |    bit4    |    bit3    |    bit2    |    bit1    |    bit0    |
+   * @n ---------------------------------------------------------------------------------------------------------
+   * @n |  Reserved  |        ALS/UVS Resolution            |  Reserved  |   ALS/UVS Measurement Rate           |
+   * @n ---------------------------------------------------------------------------------------------------------
+   * @n | ALS/UVS Resolution       |000|20 Bit, Conversion time = 400ms                                         |
+   * @n |                          |001|19 Bit, Conversion time = 200ms                                         |
+   * @n |                          |010|18 Bit, Conversion time = 100ms(default)                                |
+   * @n |                          |011|17 Bit, Conversion time = 50ms                                          |
+   * @n |                          |100|16 Bit, Conversion time = 25ms                                          |
+   * @n |                          |110/111|Reserved                                                            |
+   * @n ---------------------------------------------------------------------------------------------------------
+   * @n | ALS/UVS Measurement Rate |000|25ms                                                                    |
+   * @n |                          |001|50ms                                                                    |
+   * @n |                          |010|100ms (default)                                                         |
+   * @n |                          |011|200ms                                                                   |
+   * @n |                          |100|500ms                                                                   |
+   * @n |                          |101|1000ms                                                                  |
+   * @n |                          |110/111|2000ms                                                              |
+   * @n ---------------------------------------------------------------------------------------------------------
+   * @return None
+   */
+  ltr390.setALSOrUVSMeasRate(0x22);//设置模块采集18位数据位数和采集时间100ms
+  /**
+   * @fn setALSOrUVSGain
+   * @brief 设置传感器增益调节
+   * @n ---------------------------------------------------------------------------------------------------------
+   * @n |    bit7    |    bit6    |    bit5    |    bit4    |    bit3    |    bit2    |    bit1    |    bit0    |
+   * @n ---------------------------------------------------------------------------------------------------------
+   * @n |                                    Reserved                    |          ALS/UVS Gain Range          |
+   * @n ---------------------------------------------------------------------------------------------------------
+   * @n | ALS/UVS Gain Range       |000|Gain Range: 1                                                           |
+   * @n |                          |001|Gain Range: 3 (default)                                                 |
+   * @n |                          |010|Gain Range: 6                                                           |
+   * @n |                          |011|Gain Range: 9                                                           |
+   * @n |                          |100|Gain Range: 18                                                          |
+   * @n |                          |110/111|Reserved                                                            |
+   * @n ---------------------------------------------------------------------------------------------------------                  
+   * @param data 控制数据 
+   * @return None
+   */
   ltr390.setALSOrUVSGain(0x01);//设置增益
   ltr390.setALSOrUVSINTCFG(0x10);//不使能中断
-  //ltr390.setUVSOrAlsThresUpData(0x3E8);//中断阈值配置
-  ltr390.setMode(ltr390.eALSMode);//设置位环境光模式 ，ltr390.eUVSMode（紫外线模式） 
+  ltr390.setMode(ltr390.eALSMode);//设置环境光模式 
+  //ltr390.setMode(ltr390.eUVSMode);//设置紫外线模式 
 }
 void loop()
 {
-  uint32_t data = 0;
-  data = ltr390.readOriginalData();//获取环境光和紫外线原始数据
-  //float uvsData = ltr390.readUVSTransformData();//获取紫外线将原始数据转换为0到10范围数据
+  float data = 0;
+  data = ltr390.readOriginalData();//获取环境光或紫外线数据，根据设置得模式确定
   Serial.print("ALS:");
   Serial.println(data);
   /*

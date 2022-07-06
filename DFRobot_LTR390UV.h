@@ -198,14 +198,14 @@ public:
    * @brief 获取原始数据
    * @return 返回获取得原始数据
    */
-  uint32_t readOriginalData(void);
+  float readOriginalData(void);
 
   /**
    * @fn readUVSTransformData
    * @brief 获取转换后得UVS数据
    * @return 返回转换后的数据
    */
-  float readUVSTransformData(void);
+  //float readUVSTransformData(void);
   /**
    * @fn 
    * @brief 设置环境光或紫外线数据变化次数中断
@@ -228,13 +228,16 @@ public:
   void setUvsOrAlsThresVar(uint8_t data);
 protected:
   bool detectDeviceAddress(uint8_t addr);
-  uint8_t  readReg(uint16_t reg, void *pBuf, uint8_t size);
+  uint8_t  readReg(uint16_t reg, void *pBuf, uint8_t size,uint8_t state);
   uint8_t writeReg(uint8_t reg, void *pBuf, size_t size);
   TwoWire   *_pWire = NULL;
   Stream    *_s = NULL;
   uint8_t   _addr;
   uint8_t _mode;
-
+  
+  uint8_t a_gain[5] = {1,3,6,9,18};
+  double a_int[6] = {4.,2.,1.,0.5,0.25,0.125};
+  uint8_t gain = 0,resolution = 0;
 };
 
 
