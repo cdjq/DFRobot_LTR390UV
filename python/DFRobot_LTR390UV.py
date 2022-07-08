@@ -210,38 +210,36 @@ class DFRobot_LTR390UV():
       if self.mode == ALSMode:
         buffer = self._read_reg(LTR390UV_INPUTREG_ALS_DATA_LOW,4,0)
         data = buffer[2]<<16|buffer[3]<<24|buffer[0]|buffer[1]<<8
-        data = (0.6*originalData)/(a_gain[self.gain]*a_int[self.resolution])
+        
       elif self.mode == UVSMode:
         buffer = self._read_reg(LTR390UV_INPUTREG_UVS_DATA_LOW,4,0)
         data = buffer[2]<<16|buffer[3]<<24|buffer[0]|buffer[1]<<8
-        data = data/((self.gain/18)*(self.resolution/4)*2300)
     else:
       if self.mode == ALSMode:
         buffer = self._read_reg(LTR390UV_INPUTREG_ALS_DATA_LOW,2,0)
         data = buffer[0]|buffer[1]<<16
-        data = (0.6*originalData)/(a_gain[self.gain]*a_int[self.resolution])
       elif self.mode == UVSMode:
         buffer = self._read_reg(LTR390UV_INPUTREG_UVS_DATA_LOW,2,0)
         data = buffer[0]|buffer[1]<<16
-        data = data/((self.gain/18)*(self.resolution/4)*2300)
     return data
-  '''
-  def read_UVS_transform_data(self):
-    
-      @brief 获取转换后得UVS数据
+  
+  def read_ALS_transform_data(self):
+    '''
+      @brief 获取转换后得ALS数据
       @return 返回转换后的数据
-    
+    '''
     if self._uart_i2c == I2C_MODE:
-      if self.mode == UVSMode:
-        buffer = self._read_reg(LTR390UV_INPUTREG_UVS_DATA_LOW,4)
+      if self.mode == ALSMode:
+        buffer = self._read_reg(LTR390UV_INPUTREG_ALS_DATA_LOW,4)
         data = buffer[2]<<16|buffer[3]<<24|buffer[0]|buffer[1]<<8
+        
     else:
-     if self.mode == UVSMode:
-        buffer = self._read_reg(LTR390UV_INPUTREG_UVS_DATA_LOW,2)
+     if self.mode == ALSMode:
+        buffer = self._read_reg(LTR390UV_INPUTREG_ALS_DATA_LOW,2)
         data = buffer[0]|buffer[1]<<16
-    returnData = data / 1800
-    return returnData
-'''
+    data = (0.6*originalData)/(a_gain[self.gain]*a_int[self.resolution])
+    return data
+
   def set_UVS_or_ALS_thresvar(self,data):
     '''
       @brief 设置环境光或紫外线数据变化次数中断

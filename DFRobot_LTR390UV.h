@@ -177,35 +177,35 @@ public:
    * @param data 控制数据
    * @return None
    */
-  void setALSOrUVSINTCFG(uint8_t data);
+ // void setALSOrUVSINTCFG(uint8_t data);
 
   /**
    * @fn setUVSOrAlsThresUpData
    * @brief 设置中断阈值上限值
    * @param data 中断上限阈值，范围0~0x000fffff
    */
-  uint8_t setUVSOrAlsThresUpData(uint32_t data);
+  //uint8_t setUVSOrAlsThresUpData(uint32_t data);
 
    /**
    * @fn setUVSOrAlsThresUpData
    * @brief 设置中断阈值下限值
    * @param data 中断下限阈值，范围0~0x000fffff
    */
-  uint8_t setUVSOrAlsThresLowData(uint32_t data);
+  //uint8_t setUVSOrAlsThresLowData(uint32_t data);
 
   /**
    * @fn readData
    * @brief 获取原始数据
    * @return 返回获取得原始数据
    */
-  float readOriginalData(void);
+  uint32_t readOriginalData(void);
 
   /**
-   * @fn readUVSTransformData
-   * @brief 获取转换后得UVS数据
+   * @fn readALSTransformData
+   * @brief 获取转换后得ALS数据
    * @return 返回转换后的数据
    */
-  //float readUVSTransformData(void);
+  float readALSTransformData(void);
   /**
    * @fn 
    * @brief 设置环境光或紫外线数据变化次数中断
@@ -225,7 +225,7 @@ public:
    * @n ---------------------------------------------------------------------------------------------------------      
    * @param data 发送的数据
    */
-  void setUvsOrAlsThresVar(uint8_t data);
+  //void setUvsOrAlsThresVar(uint8_t data);
 protected:
   bool detectDeviceAddress(uint8_t addr);
   uint8_t  readReg(uint16_t reg, void *pBuf, uint8_t size,uint8_t state);
@@ -236,7 +236,7 @@ protected:
   uint8_t _mode;
   
   uint8_t a_gain[5] = {1,3,6,9,18};
-  double a_int[6] = {4.,2.,1.,0.5,0.25,0.125};
+  double a_int[6] = {4.,2.,1.,0.5,0.25,0.03125};
   uint8_t gain = 0,resolution = 0;
 };
 

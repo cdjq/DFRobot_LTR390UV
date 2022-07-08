@@ -81,7 +81,6 @@ void setup()
    * @n |                          |101|1000ms                                                                  |
    * @n |                          |110/111|2000ms                                                              |
    * @n ---------------------------------------------------------------------------------------------------------
-   * @return None
    */
   ltr390.setALSOrUVSMeasRate(0x22);//设置模块采集18位数据位数和采集时间100ms
   /**
@@ -99,23 +98,21 @@ void setup()
    * @n |                          |100|Gain Range: 18                                                          |
    * @n |                          |110/111|Reserved                                                            |
    * @n ---------------------------------------------------------------------------------------------------------                  
-   * @param data 控制数据 
-   * @return None
    */
   ltr390.setALSOrUVSGain(0x01);//设置增益
-  ltr390.setALSOrUVSINTCFG(0x10);//不使能中断
   ltr390.setMode(ltr390.eALSMode);//设置环境光模式 
   //ltr390.setMode(ltr390.eUVSMode);//设置紫外线模式 
 }
 void loop()
 {
-  float data = 0;
-  data = ltr390.readOriginalData();//获取环境光或紫外线数据，根据设置得模式确定
-  Serial.print("ALS:");
+  float als = 0;
+  uint32_t data = 0;
+  data = ltr390.readOriginalData();//获取环境光或紫外线数据原始数据，根据设置得模式确定
+  Serial.print("data:");
   Serial.println(data);
-  /*
-    Serial.print("UVS:");
-    Serial.println(data);
-  */
+  als = ltr390.readALSTransformData();//获取环境光转换后数据,只能在环境光模式下使用
+  Serial.print("ALS:");
+  Serial.print(als);
+  Serial.println("Lux");
   delay(100);
 }
