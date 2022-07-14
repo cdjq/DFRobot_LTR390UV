@@ -98,76 +98,12 @@ To use this library, first download the library file, paste it into the \Arduino
   void setALSOrUVSGain(uint8_t data);
 
   /**
-   * @fn setALSOrUVSINTCFG
-   * @brief 环境光中断设置
-   * @n ---------------------------------------------------------------------------------------------------------
-   * @n |    bit7    |    bit6    |    bit5    |    bit4    |    bit3    |    bit2    |    bit1    |    bit0    |
-   * @n ---------------------------------------------------------------------------------------------------------
-   * @n |        Reserved         |         LS_INT_SEL      | LS_VAR_MODE| LS_INT_EN  |    Reserved             |
-   * @n ---------------------------------------------------------------------------------------------------------
-   * @n | LS_INT_SEL               |00|Reserved                                                                 |
-   * @n |                          |01|ALS Channel (Default)                                                    |
-   * @n |                          |10|Reserved                                                                 |
-   * @n |                          |11|UVS Channe                                                               |
-   * @n ---------------------------------------------------------------------------------------------------------
-   * @n |     LS_VAR_MODE          |0|LS threshold interrupt mode (default)                                     |
-   * @n |                          |1|LS variation interrupt mode                                               |
-   * @n --------------------------------------------------------------------------------------------------------- 
-   * @n |     LS_INT_EN            |0|LS interrupt disabled (default)                                           |
-   * @n |                          |1|LS interrupt enabled                                                      |
-   * @n ---------------------------------------------------------------------------------------------------------      
-   * @param data 控制数据
-   * @return None
-   */
-  void setALSOrUVSINTCFG(uint8_t data);
-
-  /**
-   * @fn setUVSOrAlsThresUpData
-   * @brief 设置中断阈值上限值
-   * @param data 中断上限阈值，范围0~0x000fffff
-   */
-  uint8_t setUVSOrAlsThresUpData(uint32_t data);
-
-   /**
-   * @fn setUVSOrAlsThresUpData
-   * @brief 设置中断阈值下限值
-   * @param data 中断下限阈值，范围0~0x000fffff
-   */
-  uint8_t setUVSOrAlsThresLowData(uint32_t data);
-
-  /**
    * @fn readData
    * @brief 获取原始数据
    * @return 返回获取得原始数据
    */
   uint32_t readOriginalData(void);
 
-  /**
-   * @fn readUVSTransformData
-   * @brief 获取转换后得UVS数据
-   * @return 返回转换后的数据
-   */
-  float readUVSTransformData(void);
-  /**
-   * @fn 
-   * @brief 设置环境光或紫外线数据变化次数中断
-   * @n ---------------------------------------------------------------------------------------------------------
-   * @n |    bit7    |    bit6    |    bit5    |    bit4    |    bit3    |    bit2    |    bit1    |    bit0    |
-   * @n ---------------------------------------------------------------------------------------------------------
-   * @n |        Reserved                                                |    UVS/ALS Variance Threshold        |
-   * @n ---------------------------------------------------------------------------------------------------------
-   * @n | UVS/ALS Variance Threshold   |000|New DATA_x varies by 8 counts compared to previous result           |
-   * @n |                              |001|New DATA_x varies by 16 counts compared to previous result.         |
-   * @n |                              |010|New DATA_x varies by 32 counts compared to previous result.         |
-   * @n |                              |011|New DATA_x varies by 64 counts compared to previous result.         |
-   * @n |                              |100|New DATA_x varies by 128 counts compared to previous result.        |
-   * @n |                              |101|New DATA_x varies by 256 counts compared to previous result.        |
-   * @n |                              |110|New DATA_x varies by 512 counts compared to previous result.        |
-   * @n |                              |111|New DATA_x varies by 1024 counts compared to previous result.       |
-   * @n ---------------------------------------------------------------------------------------------------------      
-   * @param data 发送的数据
-   */
-  void setUvsOrAlsThresVar(uint8_t data);
 ```
 
 ## Compatibility

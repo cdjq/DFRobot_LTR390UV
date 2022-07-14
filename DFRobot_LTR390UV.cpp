@@ -61,7 +61,7 @@ void DFRobot_LTR390UV::setALSOrUVSMeasRate(uint8_t data)
   writeReg(LTR390UV_HOLDINGREG_ALS_UVS_MEAS_RATE,&_sendData,2);
 }
 
-void DFRobot_LTR390UV::setALSOrUVSGain(uint8_t data)
+void DFRobot_LTR390UV::setALSOrUVSGain(eGainRange data)
 { 
   uint8_t _sendData[2];
   gain = data;
@@ -69,47 +69,7 @@ void DFRobot_LTR390UV::setALSOrUVSGain(uint8_t data)
   _sendData[1] = data;
   writeReg(LTR390UV_HOLDINGREG_ALS_UVS_GAIN,&_sendData,2);
 }
-/*
-void DFRobot_LTR390UV::setALSOrUVSINTCFG(uint8_t data)
-{
-  uint8_t _sendData[2];
-  _sendData[0] = 0;
-  _sendData[1] = data;
-  writeReg(LTR390UV_HOLDINGREG_INT_CFG,&_sendData,2);
-}*/
-/*
-uint8_t DFRobot_LTR390UV::setUVSOrAlsThresUpData(uint32_t data)
-{
-  uint8_t ret = 0;
-  uint8_t _sendData[4];
-  if(data > 0x000fffff){
-    ret = 1;
-  }else{    
-    _sendData[0] =(data >> 8)&0xff;
-    _sendData[1] =data &0xff;
-    _sendData[2] = 0x00;
-    _sendData[3] =  (data >> 16) & 0xff;
-    writeReg(LTR390UV_HOLDINGREG_UVS_ALS_THRES_UP_DATA_LOW,&_sendData,4);
-  }
-  return ret;
-}
 
-uint8_t DFRobot_LTR390UV::setUVSOrAlsThresLowData(uint32_t data)
-{
-  uint8_t ret = 0;
-  uint8_t _sendData[4];
-  if(data > 0x000fffff){
-    ret = 1;
-  }else{
-    _sendData[0] =(data >> 8)&0xff;
-    _sendData[1] =data &0xff;
-    _sendData[2] = 0x00;
-    _sendData[3] =  (data >> 16) & 0xff;
-    writeReg(LTR390UV_HOLDINGREG_UVS_ALS_THRES_LOW_DATA_LOW,&_sendData,4);
-  }
-  return ret;
-}
-*/
 uint32_t DFRobot_LTR390UV::readOriginalData(void)
 {
   float data = 0;
@@ -146,14 +106,6 @@ float DFRobot_LTR390UV::readALSTransformData(void)
   return data;
 
 }
-/*
-void DFRobot_LTR390UV::setUvsOrAlsThresVar(uint8_t data)
-{
-  uint8_t _sendData[2];
-  _sendData[0] = 0;
-  _sendData[1] = data;
-  writeReg(LTR390UV_HOLDINGREG_UVS_ALS_THRES_VAR_DATA,&_sendData,2);
-}*/
 
 bool  DFRobot_LTR390UV::detectDeviceAddress(uint8_t addr)
 {

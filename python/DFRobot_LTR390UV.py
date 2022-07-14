@@ -53,6 +53,28 @@ LTR390UV_HOLDINGREG_MAIN_CTRL                   =0x0E   #传感器模式选择
 a_gain[5] = {1,3,6,9,18}
 a_int[6] = {4.,2.,1.,0.5,0.25,0.25}
 
+eGain1 = 0 #1倍增益
+eGain3 = 1 #3倍增益
+eGain6 = 2 #6倍增益
+eGain9 = 3 #9倍增益
+eGain18 =4 #18倍增益
+
+e20bit = 0  #20位数据
+e19bit = 16 #19位数据
+e18bit = 32 #18位数据
+e17bit = 48 #17位数据
+e16bit = 64 #16位数据
+e13bit =80  #13位数据
+
+e25ms = 0  #采样时间25ms
+e50ms = 1  #采样时间50ms
+e100ms = 2 #采样时间100ms
+e200ms = 3 #采样时间200ms
+e500ms = 4 #采样时间500ms
+e1000ms =5 #采样时间1000ms
+e2000ms = 6 #采样时间2000ms
+
+
 class DFRobot_LTR390UV():
   def __init__(self ,bus = 0 ,baud = 9600, mode = I2C_MODE):
     self.mode = 0
@@ -150,57 +172,7 @@ class DFRobot_LTR390UV():
       buffer=[data,0]
     else:
       buffer = [data]
-    self._write_reg(LTR390UV_HOLDINGREG_ALS_UVS_GAIN,buffer) 
-  def set_ALD_or_UVS_intcfg(self,data):
-    '''
-      @brief 环境光中断设置
-      @n ---------------------------------------------------------------------------------------------------------
-      @n |    bit7    |    bit6    |    bit5    |    bit4    |    bit3    |    bit2    |    bit1    |    bit0    |
-      @n ---------------------------------------------------------------------------------------------------------
-      @n |        Reserved         |         LS_INT_SEL      | LS_VAR_MODE| LS_INT_EN  |    Reserved             |
-      @n ---------------------------------------------------------------------------------------------------------
-      @n | LS_INT_SEL               |00|Reserved                                                                 |
-      @n |                          |01|ALS Channel (Default)                                                    |
-      @n |                          |10|Reserved                                                                 |
-      @n |                          |11|UVS Channe                                                               |
-      @n ---------------------------------------------------------------------------------------------------------
-      @n |     LS_VAR_MODE          |0|LS threshold interrupt mode (default)                                     |
-      @n |                          |1|LS variation interrupt mode                                               |
-      @n --------------------------------------------------------------------------------------------------------- 
-      @n |     LS_INT_EN            |0|LS interrupt disabled (default)                                           |
-      @n |                          |1|LS interrupt enabled                                                      |
-      @n ---------------------------------------------------------------------------------------------------------      
-      @param data 控制数据
-    '''
-    if self._uart_i2c == I2C_MODE:
-      buffer=[data,0]
-    else:
-      buffer = [data]
-    self._write_reg(LTR390UV_HOLDINGREG_INT_CFG,buffer) 
-
-  def set_UVS_or_ALS_thres_up_data(self,data):
-    '''
-      @brief 设置中断阈值上限值
-      @param data 中断上限阈值，范围0~0x000fffff
-    '''
-    if self._uart_i2c == I2C_MODE:
-      buffer=[data,(data >> 8)&0xff,(data >> 16) & 0xff,0]
-    else:
-      buffer=[(data&0xffff),(data>>16&0xffff)]
-    
-    self._write_reg(LTR390UV_HOLDINGREG_UVS_ALS_THRES_UP_DATA_LOW,buffer) 
-  
-  def set_UVS_or_ALS_thres_low_data(self,data):
-    '''
-      @brief 设置中断阈值下限值
-      @param data 中断下限阈值，范围0~0x000fffff
-    '''
-    if self._uart_i2c == I2C_MODE:
-      buffer=[data,(data >> 8)&0xff,(data >> 16) & 0xff,0]
-    else:
-      buffer=[(data&0xffff),(data>>16&0xffff)]
-    self._write_reg(LTR390UV_HOLDINGREG_UVS_ALS_THRES_LOW_DATA_LOW,buffer)
-  
+    self._write_reg(LTR390UV_HOLDINGREG_ALS_UVS_GAIN,buffer)  
   def read_original_data(self):
     '''
       @brief 获取原始数据
@@ -223,49 +195,6 @@ class DFRobot_LTR390UV():
         data = buffer[0]|buffer[1]<<16
     return data
   
-  def read_ALS_transform_data(self):
-    '''
-      @brief 获取转换后得ALS数据
-      @return 返回转换后的数据
-    '''
-    if self._uart_i2c == I2C_MODE:
-      if self.mode == ALSMode:
-        buffer = self._read_reg(LTR390UV_INPUTREG_ALS_DATA_LOW,4)
-        data = buffer[2]<<16|buffer[3]<<24|buffer[0]|buffer[1]<<8
-        
-    else:
-     if self.mode == ALSMode:
-        buffer = self._read_reg(LTR390UV_INPUTREG_ALS_DATA_LOW,2)
-        data = buffer[0]|buffer[1]<<16
-    data = (0.6*originalData)/(a_gain[self.gain]*a_int[self.resolution])
-    return data
-
-  def set_UVS_or_ALS_thresvar(self,data):
-    '''
-      @brief 设置环境光或紫外线数据变化次数中断
-      @n ---------------------------------------------------------------------------------------------------------
-      @n |    bit7    |    bit6    |    bit5    |    bit4    |    bit3    |    bit2    |    bit1    |    bit0    |
-      @n ---------------------------------------------------------------------------------------------------------
-      @n |        Reserved                                                |    UVS/ALS Variance Threshold        |
-      @n ---------------------------------------------------------------------------------------------------------
-      @n | UVS/ALS Variance Threshold   |000|New DATA_x varies by 8 counts compared to previous result           |
-      @n |                              |001|New DATA_x varies by 16 counts compared to previous result.         |
-      @n |                              |010|New DATA_x varies by 32 counts compared to previous result.         |
-      @n |                              |011|New DATA_x varies by 64 counts compared to previous result.         |
-      @n |                              |100|New DATA_x varies by 128 counts compared to previous result.        |
-      @n |                              |101|New DATA_x varies by 256 counts compared to previous result.        |
-      @n |                              |110|New DATA_x varies by 512 counts compared to previous result.        |
-      @n |                              |111|New DATA_x varies by 1024 counts compared to previous result.       |
-      @n ---------------------------------------------------------------------------------------------------------      
-      @param data 发送的数据
-    '''
-    if self._uart_i2c == I2C_MODE:
-      buffer=[data,0]
-    else:
-      buffer = [data]
-    self._write_reg(LTR390UV_HOLDINGREG_UVS_ALS_THRES_VAR_DATA,buffer) 
-
-
 class DFRobot_LTR390UV_I2C(DFRobot_LTR390UV):
   '''!
     @brief An example of an i2c interface module
