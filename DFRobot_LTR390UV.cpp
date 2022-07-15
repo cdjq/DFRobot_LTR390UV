@@ -52,9 +52,10 @@ void DFRobot_LTR390UV::setMode(eModel_t mode)
   writeReg(LTR390UV_HOLDINGREG_MAIN_CTRL,&_sendData,2);
 }
 
-void DFRobot_LTR390UV::setALSOrUVSMeasRate(uint8_t data)
+void DFRobot_LTR390UV::setALSOrUVSMeasRate(eResolution bit,eMeasurementRate time)
 {
   uint8_t _sendData[2];
+  uint8_t data = bit+time;
   resolution = (data&0xf0)>>4;
   _sendData[0] = 0;
   _sendData[1] = data;

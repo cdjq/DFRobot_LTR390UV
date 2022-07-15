@@ -150,7 +150,7 @@ class DFRobot_LTR390UV():
     else:
       buffer = [data]
     self._write_reg(LTR390UV_HOLDINGREG_ALS_UVS_MEAS_RATE,buffer) 
-  def set_ALS_or_UVS_gain(self,data):
+  def set_ALS_or_UVS_gain(self,bit,time):
     '''
       @brief 设置传感器增益调节
       @n ---------------------------------------------------------------------------------------------------------
@@ -167,11 +167,11 @@ class DFRobot_LTR390UV():
       @n ---------------------------------------------------------------------------------------------------------                  
       @param data 控制数据 
     '''
-    self.gain = data
+    self.gain = bit+tiem
     if self._uart_i2c == I2C_MODE:
-      buffer=[data,0]
+      buffer=[self.gain,0]
     else:
-      buffer = [data]
+      buffer = [self.gain]
     self._write_reg(LTR390UV_HOLDINGREG_ALS_UVS_GAIN,buffer)  
   def read_original_data(self):
     '''

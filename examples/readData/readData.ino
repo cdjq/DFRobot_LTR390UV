@@ -67,7 +67,7 @@ void setup()
    *  e16bit 16位数据     e500ms  采样时间500ms 
    *  e13bit 13位数据     e1000ms 采样时间1000ms 
    */
-  ltr390.setALSOrUVSMeasRate(ltr390.e18bit+ltr390.e100ms);
+  ltr390.setALSOrUVSMeasRate(ltr390.e18bit,ltr390.e100ms);
   /**
    * @brief 设置传感器增益
    *        eGain1 1倍增益

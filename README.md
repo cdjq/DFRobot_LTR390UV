@@ -72,10 +72,11 @@ To use this library, first download the library file, paste it into the \Arduino
    * @n |                          |101|1000ms                                                                  |
    * @n |                          |110/111|2000ms                                                              |
    * @n ---------------------------------------------------------------------------------------------------------
-   * @param data 控制数据
+   * @param bit 设置数据位数
+   * @param time 设置采样时间
    * @return None
    */
-  void setALSOrUVSMeasRate(uint8_t data);
+ void setALSOrUVSMeasRate(eResolution bit,eMeasurementRate time);
 
   /**
    * @fn setALSOrUVSGain

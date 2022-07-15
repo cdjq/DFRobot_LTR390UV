@@ -35,7 +35,7 @@ def setup():
     print("Sensor initialize failed!!")
     time.sleep(1)
   print("Sensor  initialize success!!")
-  LTR390UV.set_ALS_or_UVS_meas_rate(e18bit+e100ms)#设置模块采集数据位数和采集时间
+  LTR390UV.set_ALS_or_UVS_meas_rate(e18bit,e100ms)#设置模块采集数据位数和采集时间
   LTR390UV.set_ALS_or_UVS_gain(eGain1)#设置增益
   LTR390UV.set_mode(ALSMode)#设置位环境光模式 ，UVSMode（紫外线模式） 
   
