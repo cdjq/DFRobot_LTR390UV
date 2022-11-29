@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*
 '''!
   @file  read_data.py
-  @brief 运行本例程可以获取环境光强度，修改模式可以获取紫外线强度
+  @brief Run the routine to get ambient light intensity, and change the mode to get UV intensity
   @copyright   Copyright (c) 2021 DFRobot Co.Ltd (http://www.dfrobot.com)
   @license     The MIT License (MIT)
   @author      TangJie(jie.tang@dfrobot.com)
@@ -35,15 +35,15 @@ def setup():
     print("Sensor initialize failed!!")
     time.sleep(1)
   print("Sensor  initialize success!!")
-  LTR390UV.set_ALS_or_UVS_meas_rate(e18bit,e100ms)#设置模块采集数据位数和采集时间
-  LTR390UV.set_ALS_or_UVS_gain(eGain1)#设置增益
-  LTR390UV.set_mode(ALSMode)#设置位环境光模式 ，UVSMode（紫外线模式） 
+  LTR390UV.set_ALS_or_UVS_meas_rate(e18bit,e100ms)#Set resolution and sampling time of module
+  LTR390UV.set_ALS_or_UVS_gain(eGain1)#Set gain
+  LTR390UV.set_mode(ALSMode)#Set as ambient light mode, UVSMode (UV light mode)
   
 def loop():
 
 
-  data = LTR390UV.read_original_data()#获取环境光和紫外线原始数据
-  #uvsData = ltr390.read_UVS_transform_data()#获取紫外线将原始数据转换为0到10范围数据
+  data = LTR390UV.read_original_data()#Get raw data of ambient light and UV light
+  #uvsData = ltr390.read_UVS_transform_data()#Get UV data within 0-10 converted from raw data
   print("-----------------------\r\n")
   print("ALS:" + str(data) + "\r\n")
   print("-----------------------\r\n")
