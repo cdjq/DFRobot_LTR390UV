@@ -59,13 +59,13 @@ void setup()
   }
   Serial.println(" Sensor  initialize success!!");
   /**
-   * @brief Set resolution of module to 18 bits and sampling time to 100ms
-   *  e20bit 20-bit data     e25ms   sampling time 25ms    e2000ms  sampling time 2000ms 
-   *  e19bit 19-bit data     e50ms   sampling time 50ms 
-   *  e18bit 18-bit data     e100ms  sampling time 100ms 
-   *  e17bit 17-bit data     e200ms  sampling time 200ms 
-   *  e16bit 16-bit data     e500ms  sampling time 500ms 
-   *  e13bit 13-bit data     e1000ms sampling time 1000ms 
+   * @brief Set module to 18 bit data and 100ms acquisition time 
+   *  e20bit 20-bit data     e25ms   acquisition time 25ms    e2000ms  acquisition time 2000ms 
+   *  e19bit 19-bit data     e50ms   acquisition time 50ms 
+   *  e18bit 18-bit data     e100ms  acquisition time 100ms 
+   *  e17bit 17-bit data     e200ms  acquisition time 200ms 
+   *  e16bit 16-bit data     e500ms  acquisition time 500ms 
+   *  e13bit 13-bit data     e1000ms acquisition time 1000ms 
    */
   ltr390.setALSOrUVSMeasRate(ltr390.e18bit,ltr390.e100ms);
   /**
