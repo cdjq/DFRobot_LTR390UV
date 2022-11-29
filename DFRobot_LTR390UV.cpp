@@ -1,6 +1,6 @@
 /*!
  * @file DFRobot_LTR390UV.cpp
- * @brief 这是LTR390UV的方法实现文件
+ * @brief This is the method implementation file of LTR390UV
  * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @license     The MIT License (MIT)
  * @author [TangJie](jie.tang@dfrobot.com)
