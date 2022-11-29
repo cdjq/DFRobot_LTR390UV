@@ -1,6 +1,6 @@
 /*!
  * @file DFRobot_LTR390UV.h
- * @brief 这是LTR390UV的方法说明文件
+ * @brief This is the user manual of LTR390UV
  * @copyright   Copyright (c) 2010 DFRobot Co.Ltd (http://www.dfrobot.com)
  * @license     The MIT License (MIT)
  * @author [TangJie](jie.tang@dfrobot.com)
@@ -21,7 +21,7 @@
 #include "HardwareSerial.h"
 #endif
 
-//#define ENABLE_DBG ///< 打开这个宏, 可以看到程序的详细运行过程
+//#define ENABLE_DBG ///< Open the macro, and you can see the detailed procedure of the program.
 #ifdef ENABLE_DBG
 #define DBG(...) {Serial.print("[");Serial.print(__FUNCTION__); Serial.print("(): "); Serial.print(__LINE__); Serial.print(" ] "); Serial.println(__VA_ARGS__);}
 #else
@@ -32,28 +32,28 @@ class DFRobot_LTR390UV:public DFRobot_RTU{
 public:
   #define LTR390UV_DEVICE_ADDR                            0X1C
   #define LTR390UV_DEVICE_PID                             0X021C
-  //输入寄存器
-  #define LTR390UV_INPUTREG_PID                           0x00   ///< 设备PID
-  #define LTR390UV_INPUTREG_VID                           0x01   ///<设备的VID,固定为0x3343
-  #define LTR390UV_INPUTREG_ADDR                          0x02   ///<模块的设备地址
-  #define LTR390UV_INPUTREG_BAUDRATE                      0x03   ///<串口波特率
-  #define LTR390UV_INPUTREG_STOPBIT                       0x04   ///<串口校验位和停止位
-  #define LTR390UV_INPUTREG_VERSION                       0x05   ///<固件版本信息
-  #define LTR390UV_INPUTREG_PART_ID                       0x06   ///<传感器设备ID
-  #define LTR390UV_INPUTREG_ALS_DATA_LOW                  0x07   ///<环境光强度低位
-  #define LTR390UV_INPUTREG_ALS_DATA_HIGH                 0x08   ///<环境光强度高位
-  #define LTR390UV_INPUTREG_UVS_DATA_LOW                  0x09   ///<紫外线强度低位
-  #define LTR390UV_INPUTREG_UVS_DATA_HIGH                 0x0A   ///<紫外线强度高位
-  //保持寄存器
-  #define LTR390UV_HOLDINGREG_ALS_UVS_GAIN                0x06   ///<增益调节
-  #define LTR390UV_HOLDINGREG_INT_CFG                     0x07   ///<中断配置
-  #define LTR390UV_HOLDINGREG_UVS_ALS_THRES_UP_DATA_LOW   0x08   ///<紫外线或环境光阈值上限低位
-  #define LTR390UV_HOLDINGREG_UVS_ALS_THRES_UP_DATA_HIGH  0x09   ///<紫外线或环境光阈值上限高位
-  #define LTR390UV_HOLDINGREG_UVS_ALS_THRES_LOW_DATA_LOW  0x0A   ///<紫外线或环境光阈值下限低位
-  #define LTR390UV_HOLDINGREG_UVS_ALS_THRES_LOW_DATA_HIGH 0x0B   ///<紫外线或环境光阈值下限高位
-  #define LTR390UV_HOLDINGREG_UVS_ALS_THRES_VAR_DATA      0x0C   ///<紫外线或环境光数据变化次数阈值
-  #define LTR390UV_HOLDINGREG_ALS_UVS_MEAS_RATE           0x0D   ///<数据采集位数和采样时间设置
-  #define LTR390UV_HOLDINGREG_MAIN_CTRL                   0x0E   ///<传感器模式选择
+  //Input Register
+  #define LTR390UV_INPUTREG_PID                           0x00   ///< Device PID
+  #define LTR390UV_INPUTREG_VID                           0x01   ///<Device VID, fixed to 0x3343
+  #define LTR390UV_INPUTREG_ADDR                          0x02   ///<Device address of module
+  #define LTR390UV_INPUTREG_BAUDRATE                      0x03   ///<Serial baud rate
+  #define LTR390UV_INPUTREG_STOPBIT                       0x04   ///<Serial check bit and stop bit
+  #define LTR390UV_INPUTREG_VERSION                       0x05   ///<Firmware version
+  #define LTR390UV_INPUTREG_PART_ID                       0x06   ///<Device ID of sensor
+  #define LTR390UV_INPUTREG_ALS_DATA_LOW                  0x07   ///<The low bit of ambient light intensity
+  #define LTR390UV_INPUTREG_ALS_DATA_HIGH                 0x08   ///<The high bit of ambient light intensity
+  #define LTR390UV_INPUTREG_UVS_DATA_LOW                  0x09   ///<The low bit of UV intensity
+  #define LTR390UV_INPUTREG_UVS_DATA_HIGH                 0x0A   ///<The high bit of UV intensity
+  //Holding Register
+  #define LTR390UV_HOLDINGREG_ALS_UVS_GAIN                0x06   ///<Gain adjustment
+  #define LTR390UV_HOLDINGREG_INT_CFG                     0x07   ///<Interrupt config
+  #define LTR390UV_HOLDINGREG_UVS_ALS_THRES_UP_DATA_LOW   0x08   ///<The low bit of upper threshold of UV or ambient light
+  #define LTR390UV_HOLDINGREG_UVS_ALS_THRES_UP_DATA_HIGH  0x09   ///<The high bit of upper threshold of UV or ambient light
+  #define LTR390UV_HOLDINGREG_UVS_ALS_THRES_LOW_DATA_LOW  0x0A   ///<The low bit of lower threshold of UV or ambient light
+  #define LTR390UV_HOLDINGREG_UVS_ALS_THRES_LOW_DATA_HIGH 0x0B   ///<The high bit of lower threshold of UV or ambient light
+  #define LTR390UV_HOLDINGREG_UVS_ALS_THRES_VAR_DATA      0x0C   ///<Threshold of UV or ambient light data change counts 
+  #define LTR390UV_HOLDINGREG_ALS_UVS_MEAS_RATE           0x0D   ///<Resolution and sampling time setting
+  #define LTR390UV_HOLDINGREG_MAIN_CTRL                   0x0E   ///<Sensor mode select
 
 
 
@@ -64,7 +64,7 @@ public:
 
   /**
    * @enum enum 
-   * @brief 模块采集数据模式设置
+   * @brief Set data-collecting mode of module
    */
     typedef enum{
       eALSMode = 0x02,
@@ -73,7 +73,7 @@ public:
 
   /**
    * @enum enum 
-   * @brief 设置模块增益
+   * @brief Set module gain
    */
     typedef enum{
       eGain1 = 0,
@@ -85,7 +85,7 @@ public:
     }eGainRange;
   /**
    * @enum enum 
-   * @brief 设置数据位数
+   * @brief Set resolution
    */
     typedef enum{
       e20bit = 0,
@@ -98,7 +98,7 @@ public:
 
   /**
    * @enum enum 
-   * @brief 设置采样时间
+   * @brief Set sampling time
    */
     typedef enum{
       e25ms = 0,
@@ -140,15 +140,15 @@ public:
 
   /**
    * @fn setMode
-   * @brief 设置模块采集数据模式
-   * @param mode 采集数据选择
+   * @brief Set data-collecting mode of module
+   * @param mode Data-collecting mode select
    * @return NONE
    */
   void setMode(eModel_t mode);
 
   /**
    * @fn setALSOrUVSMeasRate
-   * @brief 设置模块采集数据位数和采集时间，采集时间必须大于采集位数所需时间
+   * @brief Set resolution and sampling time of module, the sampling time must be greater than the time for collecting resolution
    * @n --------------------------------------------------------------------------------------------------------
    * @n |    bit7    |    bit6    |    bit5    |    bit4    |    bit3    |    bit2    |    bit1    |    bit0    |
    * @n ---------------------------------------------------------------------------------------------------------
@@ -170,15 +170,15 @@ public:
    * @n |                          |101|1000ms                                                                  |
    * @n |                          |110/111|2000ms                                                              |
    * @n ---------------------------------------------------------------------------------------------------------
-   * @param bit 设置数据位数
-   * @param time 设置采样时间
+   * @param bit Set bit depth
+   * @param time Set sampling time
    * @return None
    */
   void setALSOrUVSMeasRate(eResolution bit,eMeasurementRate time);
 
   /**
    * @fn setALSOrUVSGain
-   * @brief 设置传感器增益调节
+   * @brief Set sensor gain
    * @n ---------------------------------------------------------------------------------------------------------
    * @n |    bit7    |    bit6    |    bit5    |    bit4    |    bit3    |    bit2    |    bit1    |    bit0    |
    * @n ---------------------------------------------------------------------------------------------------------
@@ -191,22 +191,22 @@ public:
    * @n |                          |100|Gain Range: 18                                                          |
    * @n |                          |110/111|Reserved                                                            |
    * @n ---------------------------------------------------------------------------------------------------------                  
-   * @param data 控制数据 
+   * @param data Control data 
    * @return None
    */
   void setALSOrUVSGain(eGainRange data);
 
   /**
    * @fn readData
-   * @brief 获取原始数据
-   * @return 返回获取得原始数据
+   * @brief Get raw data
+   * @return Return the obtained raw data
    */
   uint32_t readOriginalData(void);
 
   /**
    * @fn readALSTransformData
-   * @brief 获取转换后得ALS数据
-   * @return 返回转换后的数据
+   * @brief Get the converted ALS data
+   * @return Return the converted data
    */
   float readALSTransformData(void);
 protected:
