@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*
 '''!
   @file       DFRobot_LTR390UV.py
-  @brief       这是LTR390UV传感器基库
+  @brief       This is basic library of LTR390UV sensor
   @copyright   Copyright (c) 2021 DFRobot Co.Ltd (http://www.dfrobot.com)
   @license     The MIT License (MIT)
   @author      TangJie(jie.tang@dfrobot.com)
@@ -28,51 +28,51 @@ DEV_ADDRESS               = 0x1c
 ALSMode                   = 0x02
 UVSMode                   = 0x0A
 
-#输入寄存器
-LTR390UV_INPUTREG_PID                           =0x00   #设备PID
-LTR390UV_INPUTREG_VID                           =0x01   #设备的VID,固定为0x3343
-LTR390UV_INPUTREG_ADDR                          =0x02   #模块的设备地址
-LTR390UV_INPUTREG_BAUDRATE                      =0x03   #串口波特率
-LTR390UV_INPUTREG_STOPBIT                       =0x04   #串口校验位和停止位
-LTR390UV_INPUTREG_VERSION                       =0x05   #固件版本信息
-LTR390UV_INPUTREG_PART_ID                       =0x06   #传感器设备ID
-LTR390UV_INPUTREG_ALS_DATA_LOW                  =0x07   #环境光强度低位
-LTR390UV_INPUTREG_ALS_DATA_HIGH                 =0x08   #环境光强度高位
-LTR390UV_INPUTREG_UVS_DATA_LOW                  =0x09   #紫外线强度低位
-LTR390UV_INPUTREG_UVS_DATA_HIGH                 =0x0A   #紫外线强度高位
-#保持寄存器
-LTR390UV_HOLDINGREG_ALS_UVS_GAIN                =0x06   #增益调节
-LTR390UV_HOLDINGREG_INT_CFG                     =0x07   #中断配置
-LTR390UV_HOLDINGREG_UVS_ALS_THRES_UP_DATA_LOW   =0x08   #紫外线或环境光阈值上限低位
-LTR390UV_HOLDINGREG_UVS_ALS_THRES_UP_DATA_HIGH  =0x09   #紫外线或环境光阈值上限高位
-LTR390UV_HOLDINGREG_UVS_ALS_THRES_LOW_DATA_LOW  =0x0A   #紫外线或环境光阈值下限低位
-LTR390UV_HOLDINGREG_UVS_ALS_THRES_LOW_DATA_HIGH =0x0B   #紫外线或环境光阈值下限高位
-LTR390UV_HOLDINGREG_UVS_ALS_THRES_VAR_DATA      =0x0C   #紫外线或环境光数据变化次数阈值
-LTR390UV_HOLDINGREG_ALS_UVS_MEAS_RATE           =0x0D   #数据采集位数和采样时间设置
-LTR390UV_HOLDINGREG_MAIN_CTRL                   =0x0E   #传感器模式选择
+#Input Register
+LTR390UV_INPUTREG_PID                           =0x00   #Device PID
+LTR390UV_INPUTREG_VID                           =0x01   #Device VID, fixed to 0x3343
+LTR390UV_INPUTREG_ADDR                          =0x02   #Device address of module
+LTR390UV_INPUTREG_BAUDRATE                      =0x03   #Serial baud rate
+LTR390UV_INPUTREG_STOPBIT                       =0x04   #Serial check bit and stop bit
+LTR390UV_INPUTREG_VERSION                       =0x05   #Firmware version
+LTR390UV_INPUTREG_PART_ID                       =0x06   #Device ID of sensor
+LTR390UV_INPUTREG_ALS_DATA_LOW                  =0x07   #The low bit of ambient light intensity
+LTR390UV_INPUTREG_ALS_DATA_HIGH                 =0x08   #The high bit of ambient light intensity
+LTR390UV_INPUTREG_UVS_DATA_LOW                  =0x09   #The low bit of UV intensity
+LTR390UV_INPUTREG_UVS_DATA_HIGH                 =0x0A   #The high bit of UV intensity
+#Holding Register
+LTR390UV_HOLDINGREG_ALS_UVS_GAIN                =0x06   #Gain adjustment
+LTR390UV_HOLDINGREG_INT_CFG                     =0x07   #Interrupt config
+LTR390UV_HOLDINGREG_UVS_ALS_THRES_UP_DATA_LOW   =0x08   #The low bit of upper threshold of UV or ambient light
+LTR390UV_HOLDINGREG_UVS_ALS_THRES_UP_DATA_HIGH  =0x09   #The high bit of upper threshold of UV or ambient light
+LTR390UV_HOLDINGREG_UVS_ALS_THRES_LOW_DATA_LOW  =0x0A   #The low bit of lower threshold of UV or ambient light
+LTR390UV_HOLDINGREG_UVS_ALS_THRES_LOW_DATA_HIGH =0x0B   #The high bit of lower threshold of UV or ambient light
+LTR390UV_HOLDINGREG_UVS_ALS_THRES_VAR_DATA      =0x0C   #Threshold of UV or ambient light data change counts 
+LTR390UV_HOLDINGREG_ALS_UVS_MEAS_RATE           =0x0D   #Resolution and sampling time setting
+LTR390UV_HOLDINGREG_MAIN_CTRL                   =0x0E   #Sensor mode select
 a_gain[5] = {1,3,6,9,18}
 a_int[6] = {4.,2.,1.,0.5,0.25,0.25}
 
-eGain1 = 0 #1倍增益
-eGain3 = 1 #3倍增益
-eGain6 = 2 #6倍增益
-eGain9 = 3 #9倍增益
-eGain18 =4 #18倍增益
+eGain1 = 0 #Gain of 1
+eGain3 = 1 #Gain of 3
+eGain6 = 2 #Gain of 6
+eGain9 = 3 #Gain of 9
+eGain18 =4 #Gain of 18
 
-e20bit = 0  #20位数据
-e19bit = 16 #19位数据
-e18bit = 32 #18位数据
-e17bit = 48 #17位数据
-e16bit = 64 #16位数据
-e13bit =80  #13位数据
+e20bit = 0  #20-bit data
+e19bit = 16 #19-bit data
+e18bit = 32 #18-bit data
+e17bit = 48 #17-bit data
+e16bit = 64 #16-bit data
+e13bit =80  #13-bit data
 
-e25ms = 0  #采样时间25ms
-e50ms = 1  #采样时间50ms
-e100ms = 2 #采样时间100ms
-e200ms = 3 #采样时间200ms
-e500ms = 4 #采样时间500ms
-e1000ms =5 #采样时间1000ms
-e2000ms = 6 #采样时间2000ms
+e25ms = 0  #Sampling time of 25ms
+e50ms = 1  #Sampling time of 50ms
+e100ms = 2 #Sampling time of 100ms
+e200ms = 3 #Sampling time of 200ms
+e500ms = 4 #Sampling time of 500ms
+e1000ms =5 #Sampling time of 1000ms
+e2000ms = 6 #Sampling time of 2000ms
 
 
 class DFRobot_LTR390UV():
@@ -101,7 +101,7 @@ class DFRobot_LTR390UV():
 
   def begin(self):
     '''
-      @brief 初始化传感器
+      @brief Initialize sensor
     '''
     if self._detect_device_address() != DEV_ADDRESS:
       return False
@@ -109,8 +109,8 @@ class DFRobot_LTR390UV():
 
   def set_mode(self,mode):
     '''
-      @brief 设置模块采集数据模式
-      @param mode 采集数据选择
+      @brief Set data-collecting mode of module
+      @param mode Data-collecting mode select
     '''
     self.mode = mode
     if self._uart_i2c == I2C_MODE:
@@ -121,7 +121,7 @@ class DFRobot_LTR390UV():
   
   def set_ALS_or_UVS_meas_rate(self,data):
     '''
-      @brief 设置模块采集数据位数和采集时间，采集时间必须大于采集位数所需时间
+      @brief Set resolution and sampling time of module, the sampling time must be greater than the time for collecting resolution
       @n --------------------------------------------------------------------------------------------------------
       @n |    bit7    |    bit6    |    bit5    |    bit4    |    bit3    |    bit2    |    bit1    |    bit0    |
       @n ---------------------------------------------------------------------------------------------------------
@@ -142,7 +142,7 @@ class DFRobot_LTR390UV():
       @n |                          |101|1000ms                                                                  |
       @n |                          |110/111|2000ms                                                              |
       @n ---------------------------------------------------------------------------------------------------------
-      @param data 控制数据
+      @param data Control data
     '''
     self.resolution = (data&0xf0)>>4
     if self._uart_i2c == I2C_MODE:
@@ -152,7 +152,7 @@ class DFRobot_LTR390UV():
     self._write_reg(LTR390UV_HOLDINGREG_ALS_UVS_MEAS_RATE,buffer) 
   def set_ALS_or_UVS_gain(self,bit,time):
     '''
-      @brief 设置传感器增益调节
+      @brief Set sensor gain
       @n ---------------------------------------------------------------------------------------------------------
       @n |    bit7    |    bit6    |    bit5    |    bit4    |    bit3    |    bit2    |    bit1    |    bit0    |
       @n ---------------------------------------------------------------------------------------------------------
@@ -165,7 +165,7 @@ class DFRobot_LTR390UV():
       @n |                          |100|Gain Range: 18                                                          |
       @n |                          |110/111|Reserved                                                            |
       @n ---------------------------------------------------------------------------------------------------------                  
-      @param data 控制数据 
+      @param data Control data 
     '''
     self.gain = bit+tiem
     if self._uart_i2c == I2C_MODE:
@@ -175,8 +175,8 @@ class DFRobot_LTR390UV():
     self._write_reg(LTR390UV_HOLDINGREG_ALS_UVS_GAIN,buffer)  
   def read_original_data(self):
     '''
-      @brief 获取原始数据
-      @return 返回获取得原始数据
+      @brief Get raw data
+      @return Return the obtained raw data
     '''
     if self._uart_i2c == I2C_MODE:
       if self.mode == ALSMode:
@@ -222,7 +222,7 @@ class DFRobot_LTR390UV_I2C(DFRobot_LTR390UV):
     '''!
       @brief write the data from the register
       @param reg_addr register address
-      @param data 写入寄存器数据
+      @param data Data written to register 
     '''
     self._reg = reg_addr +5
     try:
