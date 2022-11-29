@@ -43,8 +43,8 @@ To use this library, first download the library file, paste it into the \Arduino
 
   /**
    * @fn setMode
-   * @brief 设置模块采集数据模式
-   * @param mode 采集数据选择
+   * @brief Set data-collecting mode of module
+   * @param mode Data-collecting mode select
    * @return NONE
    */
   void setMode(eModel_t mode);
