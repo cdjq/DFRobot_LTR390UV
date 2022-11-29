@@ -3,7 +3,7 @@ DFRobot_LTR390UV
 
 * [中文版](./README_CN.md)
 
-SEN0540是一个可以作为环境光获取或紫外线获取得传感器，能过使用用户库方便快捷得使用传感器。
+The SEN0540 sensor can be used to detect ambient light and UV light intensity, and users can use it easily with the library.
 
 ![产品效果图片](../../resources/images/SEN0540.png)
   
@@ -51,7 +51,7 @@ To use this library, first download the library file, paste it into the \Arduino
 
   /**
    * @fn setALSOrUVSMeasRate
-   * @brief 设置模块采集数据位数和采集时间，采集时间必须大于采集位数所需时间
+   * @brief Set resolution and sampling time of module, the sampling time must be greater than the time for collecting resolution
    * @n --------------------------------------------------------------------------------------------------------
    * @n |    bit7    |    bit6    |    bit5    |    bit4    |    bit3    |    bit2    |    bit1    |    bit0    |
    * @n ---------------------------------------------------------------------------------------------------------
@@ -72,15 +72,15 @@ To use this library, first download the library file, paste it into the \Arduino
    * @n |                          |101|1000ms                                                                  |
    * @n |                          |110/111|2000ms                                                              |
    * @n ---------------------------------------------------------------------------------------------------------
-   * @param bit 设置数据位数
-   * @param time 设置采样时间
+   * @param bit Set bit depth
+   * @param time Set sampling time
    * @return None
    */
  void setALSOrUVSMeasRate(eResolution bit,eMeasurementRate time);
 
   /**
    * @fn setALSOrUVSGain
-   * @brief 设置传感器增益调节
+   * @brief Set sensor gain
    * @n ---------------------------------------------------------------------------------------------------------
    * @n |    bit7    |    bit6    |    bit5    |    bit4    |    bit3    |    bit2    |    bit1    |    bit0    |
    * @n ---------------------------------------------------------------------------------------------------------
@@ -93,15 +93,15 @@ To use this library, first download the library file, paste it into the \Arduino
    * @n |                          |100|Gain Range: 18                                                          |
    * @n |                          |110/111|Reserved                                                            |
    * @n ---------------------------------------------------------------------------------------------------------                  
-   * @param data 控制数据 
+   * @param data Control data 
    * @return None
    */
   void setALSOrUVSGain(uint8_t data);
 
   /**
    * @fn readData
-   * @brief 获取原始数据
-   * @return 返回获取得原始数据
+   * @brief Get raw data
+   * @return Return the obtained raw data
    */
   uint32_t readOriginalData(void);
 
