@@ -1,6 +1,6 @@
 /*!
  *@file  readAlsData.ino
- *@brief 运行本例程可以获取环境光强度，修改模式可以获取紫外线强度
+ *@brief Run the routine to get ambient light intensity, and change the mode to get UV intensity
  *@n
  * @n connected table
  * ---------------------------------------------------------------------------------------------------------------
@@ -24,8 +24,8 @@
 #include <SoftwareSerial.h>
 #endif
 
-#define UARTMODE //串口模式
-//#define I2CMODE //i2c模式
+#define UARTMODE //Serial mode
+//#define I2CMODE //I2C mode
 #if defined UARTMODE
 #if defined(ARDUINO_AVR_UNO)||defined(ESP8266)
   SoftwareSerial mySerial(/*rx =*/4, /*tx =*/5);
@@ -59,36 +59,36 @@ void setup()
   }
   Serial.println(" Sensor  initialize success!!");
   /**
-   * @brief 设置模块采集18位数据位数和采集时间100ms
-   *  e20bit 20位数据     e25ms   采样时间25ms    e2000ms  采样时间2000ms 
-   *  e19bit 19位数据     e50ms   采样时间50ms 
-   *  e18bit 18位数据     e100ms  采样时间100ms 
-   *  e17bit 17位数据     e200ms  采样时间200ms 
-   *  e16bit 16位数据     e500ms  采样时间500ms 
-   *  e13bit 13位数据     e1000ms 采样时间1000ms 
+   * @brief Set resolution of module to 18 bits and sampling time to 100ms
+   *  e20bit 20-bit data     e25ms   sampling time 25ms    e2000ms  sampling time 2000ms 
+   *  e19bit 19-bit data     e50ms   sampling time 50ms 
+   *  e18bit 18-bit data     e100ms  sampling time 100ms 
+   *  e17bit 17-bit data     e200ms  sampling time 200ms 
+   *  e16bit 16-bit data     e500ms  sampling time 500ms 
+   *  e13bit 13-bit data     e1000ms sampling time 1000ms 
    */
   ltr390.setALSOrUVSMeasRate(ltr390.e18bit,ltr390.e100ms);
   /**
-   * @brief 设置传感器增益
-   *        eGain1 1倍增益
-   *        eGain3 3倍增益
-   *        eGain6 6倍增益
-   *        eGain9 9倍增益
-   *        eGain18 18倍增益
+   * @brief Set sensor gain
+   *        eGain1 1x
+   *        eGain3 3x
+   *        eGain6 6x
+   *        eGain9 9x
+   *        eGain18 18x
    * 
    */
   ltr390.setALSOrUVSGain(ltr390.eGain1);
-  ltr390.setMode(ltr390.eALSMode);//设置环境光模式 
-  //ltr390.setMode(ltr390.eUVSMode);//设置紫外线模式 
+  ltr390.setMode(ltr390.eALSMode);//Set ambient light mode 
+  //ltr390.setMode(ltr390.eUVSMode);//Set UV mode 
 }
 void loop()
 {
   float als = 0;
   uint32_t data = 0;
-  data = ltr390.readOriginalData();//获取环境光或紫外线数据原始数据，根据设置得模式确定
+  data = ltr390.readOriginalData();//Get raw data of ambient light or UV light, determined by the set mode
   Serial.print("data:");
   Serial.println(data);
-  als = ltr390.readALSTransformData();//获取环境光转换后数据,只能在环境光模式下使用
+  als = ltr390.readALSTransformData();//Get data converted from ambient light intensity, which can only be used in ambient light mode
   Serial.print("ALS:");
   Serial.print(als);
   Serial.println("Lux");
