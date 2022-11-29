@@ -21,7 +21,8 @@ The SEN0540 sensor can be used to detect ambient light and UV light intensity, a
 
 ## Summary
 
-The SEN0540 sensor can be used to detect ambient light and UV light intensity, and users can use it easily with the library.
+This LTR390-UV sensor provides both ambient light and UV sensing with UV spectral response from 280nm to 430nm and raw data output. It features high sensitivity, quick response, and strong anti-interference ability. <br/>
+With built-in ADC and MCU, this UV module can convert light data to a digital signal capable of being directly output via I2C or UART interface. It can be used for light experiments, outdoor UV detection, and other scenarios requiring UV or ambient light monitoring.
 
 
 ## Installation
@@ -42,15 +43,15 @@ To use this library, first download the library file, paste it into the \Arduino
 
   /**
    * @fn setMode
-   * @brief Set data-collecting mode of module
-   * @param mode Data-collecting mode select
+   * @brief Set data acquisition mode for module
+   * @param mode Select data acquisition mode 
    * @return NONE
    */
   void setMode(eModel_t mode);
 
   /**
    * @fn setALSOrUVSMeasRate
-   * @brief Set resolution and sampling time of module, the sampling time must be greater than the time for collecting resolution
+   * @brief Set acquisition data bit and time, the acquisition time must be greater than the time the bit needs
    * @n --------------------------------------------------------------------------------------------------------
    * @n |    bit7    |    bit6    |    bit5    |    bit4    |    bit3    |    bit2    |    bit1    |    bit0    |
    * @n ---------------------------------------------------------------------------------------------------------
@@ -71,8 +72,8 @@ To use this library, first download the library file, paste it into the \Arduino
    * @n |                          |101|1000ms                                                                  |
    * @n |                          |110/111|2000ms                                                              |
    * @n ---------------------------------------------------------------------------------------------------------
-   * @param bit Set bit depth
-   * @param time Set sampling time
+   * @param bit Set data bit 
+   * @param time Set acquisition time
    * @return None
    */
  void setALSOrUVSMeasRate(eResolution bit,eMeasurementRate time);
