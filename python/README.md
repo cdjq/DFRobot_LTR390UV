@@ -3,7 +3,7 @@ DFRobot_LTR390UV
 
 - [中文版](./README_CN.md)
 
-SEN0540是一个可以作为环境光获取或紫外线获取得传感器，能过使用用户库方便快捷得使用传感器。
+The SEN0540 sensor can be used to detect ambient light and UV light intensity, and users can use it easily with the library.
 
 ![产品效果图](../../resources/images/SEN0540.png)
 
@@ -22,7 +22,7 @@ SEN0540是一个可以作为环境光获取或紫外线获取得传感器，能�
 
 ## Summary
 
-SEN0540是一个可以作为环境光获取或紫外线获取得传感器，能过使用用户库方便快捷得使用传感器。
+The SEN0540 sensor can be used to detect ambient light and UV light intensity, and users can use it easily with the library.
 
 ## Installation
 
@@ -37,18 +37,18 @@ python control_led.py
 ```python
   def begin(self)
     '''
-      @brief 初始化传感器
+      @brief Initialize sensor
     '''
 
   def set_mode(self,mode)
     '''
-      @brief 设置模块采集数据模式
-      @param mode 采集数据选择
+      @brief Set data-collecting mode of module
+      @param mode Data-collecting mode select
     '''
   
   def set_ALS_or_UVS_meas_rate(self,data)
     '''
-      @brief 设置模块采集数据位数和采集时间，采集时间必须大于采集位数所需时间
+      @brief Set resolution and sampling time of module, the sampling time must be greater than the time for collecting resolution
       @n --------------------------------------------------------------------------------------------------------
       @n |    bit7    |    bit6    |    bit5    |    bit4    |    bit3    |    bit2    |    bit1    |    bit0    |
       @n ---------------------------------------------------------------------------------------------------------
@@ -69,12 +69,12 @@ python control_led.py
       @n |                          |101|1000ms                                                                  |
       @n |                          |110/111|2000ms                                                              |
       @n ---------------------------------------------------------------------------------------------------------
-      @param data 控制数据
+      @param data Control data
     '''
 
   def set_ALS_or_UVS_gain(self,data)
     '''
-      @brief 设置传感器增益调节
+      @brief Set sensor gain
       @n ---------------------------------------------------------------------------------------------------------
       @n |    bit7    |    bit6    |    bit5    |    bit4    |    bit3    |    bit2    |    bit1    |    bit0    |
       @n ---------------------------------------------------------------------------------------------------------
@@ -87,11 +87,11 @@ python control_led.py
       @n |                          |100|Gain Range: 18                                                          |
       @n |                          |110/111|Reserved                                                            |
       @n ---------------------------------------------------------------------------------------------------------                  
-      @param data 控制数据 
+      @param data Control data 
     '''
   def set_ALD_or_UVS_intcfg(self,data)
     '''
-      @brief 环境光中断设置
+      @brief Ambient light interrupt setting
       @n ---------------------------------------------------------------------------------------------------------
       @n |    bit7    |    bit6    |    bit5    |    bit4    |    bit3    |    bit2    |    bit1    |    bit0    |
       @n ---------------------------------------------------------------------------------------------------------
@@ -108,36 +108,36 @@ python control_led.py
       @n |     LS_INT_EN            |0|LS interrupt disabled (default)                                           |
       @n |                          |1|LS interrupt enabled                                                      |
       @n ---------------------------------------------------------------------------------------------------------      
-      @param data 控制数据
+      @param data Control data
     '''
 
   def set_UVS_or_ALS_thres_up_data(self,data)
     '''
-      @brief 设置中断阈值上限值
-      @param data 中断上限阈值，范围0~0x000fffff
+      @brief Set interrupt upper threshold
+      @param data Interrupt upper threshold, range 0~0x000fffff
     '''
   
   def set_UVS_or_ALS_thres_low_data(self,data)
     '''
-      @brief 设置中断阈值下限值
-      @param data 中断下限阈值，范围0~0x000fffff
+      @brief Set interrupt lower threshold
+      @param data Interrupt lower threshold, range 0~0x000fffff
     '''
   
   def read_original_data(self)
     '''
-      @brief 获取原始数据
-      @return 返回获取得原始数据
+      @brief Get raw data
+      @return Get the obtained raw data
     '''
   
   def read_UVS_transform_data(self)
     '''
-      @brief 获取转换后得UVS数据
-      @return 返回转换后的数据
+      @brief Get the converted UVS data
+      @return Return the converted data
     '''
 
   def set_UVS_or_ALS_thresvar(self,data)
     '''
-      @brief 设置环境光或紫外线数据变化次数中断
+      @brief Set ambient light and UV data variance count interrupt
       @n ---------------------------------------------------------------------------------------------------------
       @n |    bit7    |    bit6    |    bit5    |    bit4    |    bit3    |    bit2    |    bit1    |    bit0    |
       @n ---------------------------------------------------------------------------------------------------------
@@ -152,7 +152,7 @@ python control_led.py
       @n |                              |110|New DATA_x varies by 512 counts compared to previous result.        |
       @n |                              |111|New DATA_x varies by 1024 counts compared to previous result.       |
       @n ---------------------------------------------------------------------------------------------------------      
-      @param data 发送的数据
+      @param data Data to be sent
     '''
 ```
 
