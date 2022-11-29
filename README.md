@@ -21,8 +21,7 @@ The SEN0540 sensor can be used to detect ambient light and UV light intensity, a
 
 ## Summary
 
-This multifunctional environmental sensor library can help obtain information like temperature, humidity, pressure, UV intensity, natural sunlight intensity and altitude.
-The module also offers Gravity and breakout version for easy use.
+The SEN0540 sensor can be used to detect ambient light and UV light intensity, and users can use it easily with the library.
 
 
 ## Installation
