@@ -50,8 +50,8 @@ LTR390UV_HOLDINGREG_UVS_ALS_THRES_LOW_DATA_HIGH =0x0B   #The high bit of lower t
 LTR390UV_HOLDINGREG_UVS_ALS_THRES_VAR_DATA      =0x0C   #Threshold of UV or ambient light data change counts 
 LTR390UV_HOLDINGREG_ALS_UVS_MEAS_RATE           =0x0D   #Resolution and sampling time setting
 LTR390UV_HOLDINGREG_MAIN_CTRL                   =0x0E   #Sensor mode select
-a_gain[5] = {1,3,6,9,18}
-a_int[6] = {4.,2.,1.,0.5,0.25,0.25}
+#a_gain[5] = {1,3,6,9,18}
+#a_int[6] = {4.,2.,1.,0.5,0.25,0.25}
 
 eGain1 = 0 #Gain of 1
 eGain3 = 1 #Gain of 3
@@ -210,12 +210,8 @@ class DFRobot_LTR390UV_I2C(DFRobot_LTR390UV):
       @param reg_addr register address
       @param length read data
     '''
-    if state == 1:
-      reg = reg_addr+5
-    try:
-      rslt = self.i2cbus.read_i2c_block_data(self._addr ,reg , length)
-    except:
-      rslt = -1
+    self._reg = reg_addr
+    rslt = self.i2cbus.read_i2c_block_data(self._addr ,self._reg , length)
     return rslt
 
   def _write_reg(self, reg_addr ,data):
