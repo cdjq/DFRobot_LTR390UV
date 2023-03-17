@@ -119,7 +119,7 @@ class DFRobot_LTR390UV():
       buffer = [mode]
     self._write_reg(LTR390UV_HOLDINGREG_MAIN_CTRL,buffer) 
   
-  def set_ALS_or_UVS_meas_rate(self,data):
+  def set_ALS_or_UVS_meas_rate(self,bit,time):#self,bit,time
     '''
       @brief Set resolution and sampling time of module, the sampling time must be greater than the time for collecting resolution
       @n --------------------------------------------------------------------------------------------------------
@@ -144,13 +144,14 @@ class DFRobot_LTR390UV():
       @n ---------------------------------------------------------------------------------------------------------
       @param data Control data
     '''
-    self.resolution = (data&0xf0)>>4
+    self.gain = bit+time
+    self.resolution = (self.gain&0xf0)>>4
     if self._uart_i2c == I2C_MODE:
-      buffer=[data,0]
+      buffer=[self.gain,0]
     else:
-      buffer = [data]
+      buffer = [self.gain]
     self._write_reg(LTR390UV_HOLDINGREG_ALS_UVS_MEAS_RATE,buffer) 
-  def set_ALS_or_UVS_gain(self,bit,time):
+  def set_ALS_or_UVS_gain(self,data):
     '''
       @brief Set sensor gain
       @n ---------------------------------------------------------------------------------------------------------
@@ -167,11 +168,11 @@ class DFRobot_LTR390UV():
       @n ---------------------------------------------------------------------------------------------------------                  
       @param data Control data 
     '''
-    self.gain = bit+tiem
+    
     if self._uart_i2c == I2C_MODE:
-      buffer=[self.gain,0]
+      buffer=[data,0]
     else:
-      buffer = [self.gain]
+      buffer = [data]
     self._write_reg(LTR390UV_HOLDINGREG_ALS_UVS_GAIN,buffer)  
   def read_original_data(self):
     '''
@@ -241,7 +242,7 @@ class DFRobot_LTR390UV_UART(DFRobot_LTR390UV):
       print ("plese get root!")
    
   
-  def _read_reg(self, reg_addr ,length,state):
+  def _read_reg(self, reg_addr ,length):
     '''!
       @brief Read data from the sensor
     '''
