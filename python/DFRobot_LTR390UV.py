@@ -114,7 +114,7 @@ class DFRobot_LTR390UV():
     '''
     self.mode = mode
     if self._uart_i2c == I2C_MODE:
-      buffer=[data,0]
+      buffer=[self.mode,0]
     else:
       buffer = [mode]
     self._write_reg(LTR390UV_HOLDINGREG_MAIN_CTRL,buffer) 
@@ -241,7 +241,7 @@ class DFRobot_LTR390UV_UART(DFRobot_LTR390UV):
       print ("plese get root!")
    
   
-  def _read_reg(self, reg_addr ,length):
+  def _read_reg(self, reg_addr ,length,state):
     '''!
       @brief Read data from the sensor
     '''
