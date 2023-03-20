@@ -50,8 +50,9 @@ LTR390UV_HOLDINGREG_UVS_ALS_THRES_LOW_DATA_HIGH =0x0B   #The high bit of lower t
 LTR390UV_HOLDINGREG_UVS_ALS_THRES_VAR_DATA      =0x0C   #Threshold of UV or ambient light data change counts 
 LTR390UV_HOLDINGREG_ALS_UVS_MEAS_RATE           =0x0D   #Resolution and sampling time setting
 LTR390UV_HOLDINGREG_MAIN_CTRL                   =0x0E   #Sensor mode select
-#a_gain[5] = {1,3,6,9,18}
-#a_int[6] = {4.,2.,1.,0.5,0.25,0.25}
+a_gain = [1,3,6,9,18]
+a_int = [4.,2.,1.,0.5,0.25,0.25]
+
 
 eGain1 = 0 #Gain of 1
 eGain3 = 1 #Gain of 3
@@ -168,7 +169,7 @@ class DFRobot_LTR390UV():
       @n ---------------------------------------------------------------------------------------------------------                  
       @param data Control data 
     '''
-    
+    self.gain = data
     if self._uart_i2c == I2C_MODE:
       buffer=[data,0]
     else:
@@ -194,6 +195,22 @@ class DFRobot_LTR390UV():
       elif self.mode == UVSMode:
         buffer = self._read_reg(LTR390UV_INPUTREG_UVS_DATA_LOW,2,0)
         data = buffer[0]|buffer[1]<<16
+    return data
+  
+  def read_ALSTrans_form_data(self):
+    if self._uart_i2c == I2C_MODE:
+      if self.mode == ALSMode:
+        buffer = self._read_reg(LTR390UV_INPUTREG_ALS_DATA_LOW,4,0)
+        data = buffer[2]<<16|buffer[3]<<24|buffer[0]|buffer[1]<<8
+        data = (0.6*data)/(a_gain[self.gain]*a_int[self.resolution])
+      else:
+        data = 0
+    else:
+      if self.mode == ALSMode:
+        buffer = self._read_reg(LTR390UV_INPUTREG_ALS_DATA_LOW,2,0)
+        data = buffer[0]|buffer[1]<<16
+      else:
+        data = 0
     return data
   
 class DFRobot_LTR390UV_I2C(DFRobot_LTR390UV):
