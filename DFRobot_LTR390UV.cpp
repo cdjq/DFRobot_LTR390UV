@@ -28,7 +28,10 @@ int8_t DFRobot_LTR390UV::begin(void)
 {
   delay(500);
   setTimeoutTimeMs(200);
-  _pWire->begin();
+  if(_pWire){
+    _pWire->begin();
+  }
+  
   if(_addr > 0xF7){
     DBG("Invaild Device addr.");
   }
